@@ -116,30 +116,6 @@ nav a {
   cursor: pointer;
 }
 
-#cartForm {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  background-color: #1c1c1e;
-  padding: 2rem;
-  max-width: 400px;
-  margin: 2rem auto;
-  border-radius: 12px;
-}
-
-#cartForm input, #cartForm button {
-  padding: 0.6rem;
-  border-radius: 6px;
-  border: none;
-}
-
-#cartForm button {
-  background-color: #007aff;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 footer {
   text-align: center;
   padding: 2rem;
@@ -163,44 +139,8 @@ function checkout() {
     alert("Your cart is empty.");
     return;
   }
-  document.getElementById('cartForm').style.display = 'flex';
-}
-
-function submitOrder(event) {
-  event.preventDefault();
-
-  const form = document.createElement("form");
-  form.action = "https://formsubmit.co/theinvestorcompany001@gmail.com";
-  form.method = "POST";
-  form.style.display = "none";
-
-  const name = document.getElementById("userName").value;
-  const email = document.getElementById("userEmail").value;
-  const phone = document.getElementById("userPhone").value;
-  const address = document.getElementById("userAddress").value;
-
-  form.appendChild(createInput("name", name));
-  form.appendChild(createInput("email", email));
-  form.appendChild(createInput("phone", phone));
-  form.appendChild(createInput("address", address));
-
-  const cartDetails = Object.entries(cart).map(([item, qty]) => `${item}: ${qty}`).join("\n");
-  form.appendChild(createInput("cart", cartDetails));
-  form.appendChild(createInput("_captcha", "false"));
-
-  document.body.appendChild(form);
-  form.submit();
-
-  alert("Thank you for shopping with us!");
-  cart = {}; // Clear cart
-  document.getElementById('cartForm').style.display = 'none';
-}
-
-function createInput(name, value) {
-  const input = document.createElement("input");
-  input.name = name;
-  input.value = value;
-  return input;
+  const cartData = encodeURIComponent(JSON.stringify(cart));
+  window.location.href = `checkout.html?cart=${cartData}`;
 }
 
   </script>
@@ -235,13 +175,7 @@ function createInput(name, value) {
   <button onclick="addToCart('iPad Pro')">Add to Cart</button>
 </div>
 
-  </div>  <form id="cartForm" onsubmit="submitOrder(event)">
-    <input type="text" id="userName" placeholder="Your Name" required>
-    <input type="email" id="userEmail" placeholder="Your Email" required>
-    <input type="text" id="userPhone" placeholder="Phone Number" required>
-    <input type="text" id="userAddress" placeholder="Delivery Address" required>
-    <button type="submit">Submit Order</button>
-  </form>  <footer>
+  </div>  <footer>
     &copy; 2025 TechStore. All rights reserved.
   </footer>
 </body>
