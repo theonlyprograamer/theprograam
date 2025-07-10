@@ -116,6 +116,30 @@ nav a {
   cursor: pointer;
 }
 
+#cartForm {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #1c1c1e;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  border-radius: 12px;
+}
+
+#cartForm input, #cartForm button {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+}
+
+#cartForm button {
+  background-color: #007aff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 footer {
   text-align: center;
   padding: 2rem;
@@ -125,49 +149,58 @@ footer {
 
   </style>
   <script>
-    let cart = [];
-    function addToCart(product) {
-      cart.push(product);
-      alert(product + " added to cart.");
-    }function checkout() {
-  if (cart.length === 0) {
+    let cart = {};function addToCart(product) {
+  if (cart[product]) {
+    cart[product]++;
+  } else {
+    cart[product] = 1;
+  }
+  alert(product + " added to cart.");
+}
+
+function checkout() {
+  if (Object.keys(cart).length === 0) {
     alert("Your cart is empty.");
     return;
   }
-  const name = prompt("Enter your name:");
-  const email = prompt("Enter your email:");
-  if (!name || !email) {
-    alert("Please provide both name and email.");
-    return;
-  }
-  const cartDetails = cart.map(item => `Product: ${item}`).join("\n");
+  document.getElementById('cartForm').style.display = 'flex';
+}
+
+function submitOrder(event) {
+  event.preventDefault();
+
   const form = document.createElement("form");
   form.action = "https://formsubmit.co/theinvestorcompany001@gmail.com";
   form.method = "POST";
   form.style.display = "none";
 
-  const nameInput = document.createElement("input");
-  nameInput.name = "name";
-  nameInput.value = name;
-  form.appendChild(nameInput);
+  const name = document.getElementById("userName").value;
+  const email = document.getElementById("userEmail").value;
+  const phone = document.getElementById("userPhone").value;
+  const address = document.getElementById("userAddress").value;
 
-  const emailInput = document.createElement("input");
-  emailInput.name = "email";
-  emailInput.value = email;
-  form.appendChild(emailInput);
+  form.appendChild(createInput("name", name));
+  form.appendChild(createInput("email", email));
+  form.appendChild(createInput("phone", phone));
+  form.appendChild(createInput("address", address));
 
-  const cartInput = document.createElement("input");
-  cartInput.name = "cart";
-  cartInput.value = cartDetails;
-  form.appendChild(cartInput);
-
-  const captcha = document.createElement("input");
-  captcha.name = "_captcha";
-  captcha.value = "false";
-  form.appendChild(captcha);
+  const cartDetails = Object.entries(cart).map(([item, qty]) => `${item}: ${qty}`).join("\n");
+  form.appendChild(createInput("cart", cartDetails));
+  form.appendChild(createInput("_captcha", "false"));
 
   document.body.appendChild(form);
   form.submit();
+
+  alert("Thank you for shopping with us!");
+  cart = {}; // Clear cart
+  document.getElementById('cartForm').style.display = 'none';
+}
+
+function createInput(name, value) {
+  const input = document.createElement("input");
+  input.name = name;
+  input.value = value;
+  return input;
 }
 
   </script>
@@ -202,7 +235,13 @@ footer {
   <button onclick="addToCart('iPad Pro')">Add to Cart</button>
 </div>
 
-  </div>  <footer>
+  </div>  <form id="cartForm" onsubmit="submitOrder(event)">
+    <input type="text" id="userName" placeholder="Your Name" required>
+    <input type="email" id="userEmail" placeholder="Your Email" required>
+    <input type="text" id="userPhone" placeholder="Phone Number" required>
+    <input type="text" id="userAddress" placeholder="Delivery Address" required>
+    <button type="submit">Submit Order</button>
+  </form>  <footer>
     &copy; 2025 TechStore. All rights reserved.
   </footer>
 </body>
