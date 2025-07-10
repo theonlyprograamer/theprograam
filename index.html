@@ -1,145 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TechStore - Premium Apple Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f9f9f9;
-      --text: #000;
-      --card-bg: #ffffff;
-      --btn-bg: #007aff;
-      --btn-text: #fff;
-    }
-
-    body.dark {
-      --bg: #000;
-      --text: #fff;
-      --card-bg: #111;
-      --btn-bg: #007aff;
-      --btn-text: #fff;
-    }
-
-    body {
+    * {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: all 0.3s ease;
-      padding: 1.5rem;
-    }
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }body {
+  background-color: #000;
+  color: #fff;
+}
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #111;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-    nav a {
-      margin-left: 1rem;
-      color: var(--text);
-      text-decoration: none;
-    }
+nav a {
+  color: #fff;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+}
 
-    nav a:hover {
-      text-decoration: underline;
-    }
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-image: url('https://www.apple.com/v/iphone-15-pro/c/images/overview/contrast/contrast_finish__gejz1b1ivgi6_large.jpg');
+  background-size: cover;
+  background-position: center;
+}
 
-    #toggle-theme {
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-    }
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+}
 
-    .hero {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ddd;
+}
 
-    .hero h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
+.hero button {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
 
-    .hero button {
-      background-color: var(--btn-bg);
-      color: var(--btn-text);
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  background-color: #111;
+}
 
-    .products {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
+.product {
+  background-color: #1c1c1e;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255,255,255,0.05);
+  transition: transform 0.3s;
+}
 
-    .product {
-      background-color: var(--card-bg);
-      padding: 1rem;
-      border-radius: 12px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      border: 1px solid #ddd;
-    }
+.product:hover {
+  transform: translateY(-5px);
+}
 
-    .product h2 {
-      margin: 0.5rem 0;
-    }
+.product img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
 
-    form input,
-    form button {
-      display: block;
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
+.product h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
 
-    form button {
-      background-color: var(--btn-bg);
-      color: var(--btn-text);
-      border: none;
-      margin-top: 0.8rem;
-    }
+.product p {
+  color: #ccc;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
 
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #888;
-    }
+form input, form button {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  border-radius: 6px;
+  border: none;
+}
+
+form button {
+  background-color: #007aff;
+  color: #fff;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #000;
+  color: #888;
+}
+
   </style>
 </head>
 <body>
-
   <nav>
     <div><strong>TechStore</strong></div>
     <div>
       <a href="#">Home</a>
       <a href="#">Products</a>
       <a href="#">Contact</a>
-      <button id="toggle-theme">🌙</button>
     </div>
-  </nav>
-
-  <div class="hero">
-    <h1>Explore the Future</h1>
-    <p>Premium Apple Products at Your Fingertips</p>
+  </nav>  <div class="hero">
+    <h1>iPhone 15 Pro</h1>
+    <p>Built with Titanium. Powered by A17 Pro.</p>
     <button>Shop Now</button>
-  </div>
-
-  <div class="products">
+  </div>  <div class="products">
     <div class="product">
-      <h2>📱 iPhone 15 Pro</h2>
+      <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-family-select-2023?wid=940&hei=1112&fmt=png-alpha&.v=1693084812606" alt="iPhone 15 Pro">
+      <h2>iPhone 15 Pro</h2>
       <p>From $999</p>
       <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
         <input type="text" name="name" placeholder="Your Name" required>
@@ -147,60 +149,38 @@
         <input type="number" name="quantity" placeholder="Quantity" min="1" required>
         <input type="hidden" name="product" value="iPhone 15 Pro">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
         <button type="submit">Buy</button>
       </form>
-    </div>
+    </div><div class="product">
+  <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202301_GEO_IN?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671302570659" alt="MacBook Pro">
+  <h2>MacBook Pro</h2>
+  <p>From $1,299</p>
+  <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+    <input type="hidden" name="product" value="MacBook Pro">
+    <input type="hidden" name="_captcha" value="false">
+    <button type="submit">Buy</button>
+  </form>
+</div>
 
-    <div class="product">
-      <h2>💻 MacBook Pro</h2>
-      <p>From $1,299</p>
-      <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
-        <input type="hidden" name="product" value="MacBook Pro">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <button type="submit">Buy</button>
-      </form>
-    </div>
+<div class="product">
+  <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-select-202104_GEO_IN?wid=940&hei=1112&fmt=png-alpha&.v=1617067386000" alt="iPad Pro">
+  <h2>iPad Pro</h2>
+  <p>From $799</p>
+  <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <input type="number" name="quantity" placeholder="Quantity" min="1" required>
+    <input type="hidden" name="product" value="iPad Pro">
+    <input type="hidden" name="_captcha" value="false">
+    <button type="submit">Buy</button>
+  </form>
+</div>
 
-    <div class="product">
-      <h2>📱 iPad Pro</h2>
-      <p>From $799</p>
-      <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
-        <input type="hidden" name="product" value="iPad Pro">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <button type="submit">Buy</button>
-      </form>
-    </div>
-  </div>
-
-  <footer>
-    &copy; 2025 TechStore. All rights reserved.
+  </div>  <footer>
+    &copy; 2025 TechStore. Built with ❤️ inspired by Apple.
   </footer>
-
-  <script>
-    const toggleBtn = document.getElementById('toggle-theme');
-    const currentTheme = localStorage.getItem('theme');
-
-    if (currentTheme === 'dark') {
-      document.body.classList.add('dark');
-      toggleBtn.textContent = '☀️';
-    }
-
-    toggleBtn.onclick = () => {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      toggleBtn.textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    };
-  </script>
-
 </body>
 </html>
