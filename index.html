@@ -30,6 +30,7 @@ nav a {
   margin-left: 1rem;
   text-decoration: none;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .hero {
@@ -103,18 +104,16 @@ nav a {
   margin-bottom: 1rem;
 }
 
-form input, form button {
+.product button {
   width: 100%;
   padding: 0.6rem;
   margin-top: 0.5rem;
   border-radius: 6px;
   border: none;
-}
-
-form button {
   background-color: #007aff;
   color: #fff;
   font-weight: bold;
+  cursor: pointer;
 }
 
 footer {
@@ -125,14 +124,59 @@ footer {
 }
 
   </style>
+  <script>
+    let cart = [];
+    function addToCart(product) {
+      cart.push(product);
+      alert(product + " added to cart.");
+    }function checkout() {
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+  const name = prompt("Enter your name:");
+  const email = prompt("Enter your email:");
+  if (!name || !email) {
+    alert("Please provide both name and email.");
+    return;
+  }
+  const cartDetails = cart.map(item => `Product: ${item}`).join("\n");
+  const form = document.createElement("form");
+  form.action = "https://formsubmit.co/theinvestorcompany001@gmail.com";
+  form.method = "POST";
+  form.style.display = "none";
+
+  const nameInput = document.createElement("input");
+  nameInput.name = "name";
+  nameInput.value = name;
+  form.appendChild(nameInput);
+
+  const emailInput = document.createElement("input");
+  emailInput.name = "email";
+  emailInput.value = email;
+  form.appendChild(emailInput);
+
+  const cartInput = document.createElement("input");
+  cartInput.name = "cart";
+  cartInput.value = cartDetails;
+  form.appendChild(cartInput);
+
+  const captcha = document.createElement("input");
+  captcha.name = "_captcha";
+  captcha.value = "false";
+  form.appendChild(captcha);
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
+  </script>
 </head>
 <body>
   <nav>
     <div><strong>TechStore</strong></div>
     <div>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">Contact</a>
+      <a onclick="checkout()">🛒 Cart</a>
     </div>
   </nav>  <div class="hero">
     <h1>iPhone 15 Pro</h1>
@@ -143,40 +187,19 @@ footer {
       <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-family-select-2023?wid=940&hei=1112&fmt=png-alpha&.v=1693084812606" alt="iPhone 15 Pro">
       <h2>iPhone 15 Pro</h2>
       <p>From $999</p>
-      <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <input type="number" name="quantity" placeholder="Quantity" min="1" required>
-        <input type="hidden" name="product" value="iPhone 15 Pro">
-        <input type="hidden" name="_captcha" value="false">
-        <button type="submit">Buy</button>
-      </form>
+      <button onclick="addToCart('iPhone 15 Pro')">Add to Cart</button>
     </div><div class="product">
   <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202301_GEO_IN?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671302570659" alt="MacBook Pro">
   <h2>MacBook Pro</h2>
   <p>From $1,299</p>
-  <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <input type="number" name="quantity" placeholder="Quantity" min="1" required>
-    <input type="hidden" name="product" value="MacBook Pro">
-    <input type="hidden" name="_captcha" value="false">
-    <button type="submit">Buy</button>
-  </form>
+  <button onclick="addToCart('MacBook Pro')">Add to Cart</button>
 </div>
 
 <div class="product">
   <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-select-202104_GEO_IN?wid=940&hei=1112&fmt=png-alpha&.v=1617067386000" alt="iPad Pro">
   <h2>iPad Pro</h2>
   <p>From $799</p>
-  <form action="https://formsubmit.co/theinvestorcompany001@gmail.com" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <input type="number" name="quantity" placeholder="Quantity" min="1" required>
-    <input type="hidden" name="product" value="iPad Pro">
-    <input type="hidden" name="_captcha" value="false">
-    <button type="submit">Buy</button>
-  </form>
+  <button onclick="addToCart('iPad Pro')">Add to Cart</button>
 </div>
 
   </div>  <footer>
