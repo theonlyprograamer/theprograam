@@ -111,18 +111,15 @@ const themeToggle=document.getElementById('themeToggle');
 const searchInput=document.getElementById('searchInput');
 const searchBtn=document.getElementById('searchBtn');
 
-// Fetch all timezones from WorldTime API
-let timezones=[];
-async function fetchTimezones(){
-  const response=await fetch('https://worldtimeapi.org/api/timezone');
-  timezones=await response.json();
-  countrySelect.innerHTML='';
-  for(let tz of timezones){
-    const option=document.createElement('option');
-    option.value=tz;
-    option.textContent=tz.replace('_',' ');
-    countrySelect.appendChild(option);
-  }
+// Complete IANA timezone list
+const timezones = Intl.supportedValuesOf('timeZone');
+
+// Populate dropdown
+for(let tz of timezones){
+  const option=document.createElement('option');
+  option.value=tz;
+  option.textContent=tz.replace('_',' ');
+  countrySelect.appendChild(option);
 }
 
 let selectedZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -230,6 +227,7 @@ themeToggle.addEventListener('click',()=>{
   }
 });
 
+// Search by city/country
 searchBtn.addEventListener('click', async ()=>{
   const query=searchInput.value.toLowerCase().trim();
   const match=timezones.find(tz=>tz.toLowerCase().includes(query));
@@ -242,6 +240,7 @@ searchBtn.addEventListener('click', async ()=>{
   }
 });
 
+// Auto local timezone
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(()=>{
     try{
@@ -253,8 +252,7 @@ if(navigator.geolocation){
   });
 }
 
-fetchTimezones().then(startClock);
+startClock();
 </script>
 </body>
 </html>
-
