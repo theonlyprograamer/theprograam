@@ -1,182 +1,239 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechStore - Premium Apple Products</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <title>The Ultimate Clock</title>
   <style>
-    * {
+    /* ---------- BASE THEME ---------- */
+    :root {
+      --bg: linear-gradient(135deg, #e3f2fd, #ffffff);
+      --text: #1c1c1e;
+      --glass-bg: rgba(255, 255, 255, 0.3);
+      --border: rgba(255, 255, 255, 0.4);
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] {
+      --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --text: #f5f5f7;
+      --glass-bg: rgba(0, 0, 0, 0.25);
+      --border: rgba(255, 255, 255, 0.15);
+      --shadow: rgba(0, 0, 0, 0.6);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }body {
-  background-color: #000;
-  color: #fff;
-}
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      background-attachment: fixed;
+      color: var(--text);
+      transition: background 0.5s ease, color 0.5s ease;
+      overflow-x: hidden;
+    }
 
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background-color: #111;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
+    /* ---------- CLOCK CARD ---------- */
+    .clock-container {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: var(--glass-bg);
+      border-radius: 25px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 40px var(--shadow);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      max-width: 340px;
+      transition: background 0.4s ease, border 0.4s ease;
+    }
 
-nav a {
-  color: #fff;
-  margin-left: 1rem;
-  text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
-}
+    h1 {
+      font-size: clamp(1.3rem, 2vw, 1.6rem);
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
 
-.hero {
-  text-align: center;
-  padding: 4rem 2rem;
-  background-image: url('https://www.apple.com/v/iphone-15-pro/c/images/overview/contrast/contrast_finish__gejz1b1ivgi6_large.jpg');
-  background-size: cover;
-  background-position: center;
-}
+    canvas {
+      background: transparent;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      width: 100%;
+      height: auto;
+    }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 1rem;
-}
+    select, input {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--text);
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 300px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      outline: none;
+      transition: all 0.3s;
+    }
 
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  color: #ddd;
-}
+    input::placeholder {
+      color: rgba(100, 100, 100, 0.7);
+    }
 
-.hero button {
-  background-color: #007aff;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 12px;
-  cursor: pointer;
-}
+    #digitalTime {
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 500;
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+    }
 
-.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  padding: 3rem 2rem;
-  background-color: #111;
-}
+    /* ---------- THEME BUTTON ---------- */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text);
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
 
-.product {
-  background-color: #1c1c1e;
-  border-radius: 16px;
-  padding: 1.5rem;
-  width: 280px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(255,255,255,0.05);
-  transition: transform 0.3s;
-}
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
 
-.product:hover {
-  transform: translateY(-5px);
-}
-
-.product img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-}
-
-.product h2 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.product p {
-  color: #ccc;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-}
-
-.product button {
-  width: 100%;
-  padding: 0.6rem;
-  margin-top: 0.5rem;
-  border-radius: 6px;
-  border: none;
-  background-color: #007aff;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  background-color: #000;
-  color: #888;
-}
-
+    @media (max-width: 600px) {
+      .clock-container {
+        padding: 20px;
+      }
+    }
   </style>
-  <script>
-    let cart = {};function addToCart(product) {
-  if (cart[product]) {
-    cart[product]++;
-  } else {
-    cart[product] = 1;
-  }
-  alert(product + " added to cart.");
-}
-
-function checkout() {
-  if (Object.keys(cart).length === 0) {
-    alert("Your cart is empty.");
-    return;
-  }
-  const cartData = encodeURIComponent(JSON.stringify(cart));
-  window.location.href = `checkout.html?cart=${cartData}`;
-}
-
-  </script>
 </head>
 <body>
-  <nav>
-    <div><strong>TechStore</strong></div>
-    <div>
-      <a onclick="checkout()">🛒 Cart</a>
-    </div>
-  </nav>  <div class="hero">
-    <h1>iPhone 15 Pro</h1>
-    <p>Built with Titanium. Powered by A17 Pro.</p>
-    <button>Shop Now</button>
-  </div>  <div class="products">
-    <div class="product">
-      <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-family-select-2023?wid=940&hei=1112&fmt=png-alpha&.v=1693084812606" alt="iPhone 15 Pro">
-      <h2>iPhone 15 Pro</h2>
-      <p>From $999</p>
-      <button onclick="addToCart('iPhone 15 Pro')">Add to Cart</button>
-    </div><div class="product">
-  <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202301_GEO_IN?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1671302570659" alt="MacBook Pro">
-  <h2>MacBook Pro</h2>
-  <p>From $1,299</p>
-  <button onclick="addToCart('MacBook Pro')">Add to Cart</button>
-</div>
+  <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
 
-<div class="product">
-  <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-select-202104_GEO_IN?wid=940&hei=1112&fmt=png-alpha&.v=1617067386000" alt="iPad Pro">
-  <h2>iPad Pro</h2>
-  <p>From $799</p>
-  <button onclick="addToCart('iPad Pro')">Add to Cart</button>
-</div>
+  <div class="clock-container">
+    <h1>The Ultimate Clock</h1>
+    <input type="text" id="searchInput" placeholder="Search city or country..." />
+    <select id="countrySelect"></select>
+    <canvas id="clockCanvas" width="280" height="280"></canvas>
+    <div id="digitalTime"></div>
+  </div>
 
-  </div>  <footer>
-    &copy; 2025 TechStore. All rights reserved.
-  </footer>
-</body>
-</html>
+  <script>
+    const canvas = document.getElementById('clockCanvas');
+    const ctx = canvas.getContext('2d');
+    const digitalTime = document.getElementById('digitalTime');
+    const countrySelect = document.getElementById('countrySelect');
+    const themeToggle = document.getElementById('themeToggle');
+    const searchInput = document.getElementById('searchInput');
+
+    const timezones = {
+      'Local Time': Intl.DateTimeFormat().resolvedOptions().timeZone,
+      'United States (New York)': 'America/New_York',
+      'United Kingdom (London)': 'Europe/London',
+      'India (New Delhi)': 'Asia/Kolkata',
+      'Japan (Tokyo)': 'Asia/Tokyo',
+      'Australia (Sydney)': 'Australia/Sydney',
+      'UAE (Dubai)': 'Asia/Dubai',
+      'Germany (Berlin)': 'Europe/Berlin',
+      'Brazil (Sao Paulo)': 'America/Sao_Paulo'
+    };
+
+    for (let country in timezones) {
+      const option = document.createElement('option');
+      option.value = timezones[country];
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    }
+
+    let selectedZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    let serverTimeOffset = 0;
+
+    async function syncWithInternetTime() {
+      try {
+        const response = await fetch(`https://worldtimeapi.org/api/timezone/${selectedZone}`);
+        const data = await response.json();
+        const serverTime = new Date(data.datetime).getTime();
+        const localNow = Date.now();
+        serverTimeOffset = serverTime - localNow;
+      } catch (error) {
+        console.error('Time sync failed:', error);
+      }
+    }
+
+    async function startClock() {
+      await syncWithInternetTime();
+      drawClock();
+      setInterval(syncWithInternetTime, 60000);
+    }
+
+    function drawClock() {
+      const now = new Date(Date.now() + serverTimeOffset);
+      const radius = canvas.height / 2;
+      ctx.translate(radius, radius);
+      ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
+
+      drawFace(ctx, radius);
+      drawNumbers(ctx, radius);
+      drawTime(ctx, radius, now);
+
+      ctx.translate(-radius, -radius);
+
+      const timeString = now.toLocaleTimeString('en-US', { timeZone: selectedZone, hour12: true });
+      digitalTime.textContent = timeString;
+
+      requestAnimationFrame(drawClock);
+    }
+
+    function drawFace(ctx, radius) {
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = radius * 0.04;
+      ctx.stroke();
+    }
+
+    function drawNumbers(ctx, radius) {
+      ctx.font = radius * 0.15 + 'px SF Pro Display';
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text');
+      for (let num = 1; num <= 12; num++) {
+        const ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -radius * 0.8);
+        ctx.rotate(-ang);
+        ctx.fillText(num.toString(), 0, 0);
+        ctx.rotate(ang);
+        ctx.translate(0, radius * 0.8);
+        ctx.rotate(-ang);
+      }
+    }
+
+    function drawTime(ctx, radius, now) {
+      const ms = now.getMilliseconds();
+      const second = now.getSeconds() + ms / 1000;
+      const minute = now.getMinutes() + second / 60;
+      const hour = (now.getHours() % 12) + minute / 60;
+
+      drawHand(ctx, hour * Math.PI / 6, radius * 0.5, radius * 0.07);
+      drawHand(ctx,
