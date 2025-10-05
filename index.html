@@ -102,7 +102,6 @@ input::placeholder{color:rgba(100,100,100,0.7);}
 <canvas id="clockCanvas" width="280" height="280"></canvas>
 <div id="digitalTime"></div>
 </div>
-
 <script>
 const canvas=document.getElementById('clockCanvas');
 const ctx=canvas.getContext('2d');
@@ -112,24 +111,14 @@ const themeToggle=document.getElementById('themeToggle');
 const searchInput=document.getElementById('searchInput');
 const searchBtn=document.getElementById('searchBtn');
 
-// Add supported timezones (you can extend this list)
-const timezones={
-  'Local Time':Intl.DateTimeFormat().resolvedOptions().timeZone,
-  'United States (New York)':'America/New_York',
-  'United Kingdom (London)':'Europe/London',
-  'India (New Delhi)':'Asia/Kolkata',
-  'Japan (Tokyo)':'Asia/Tokyo',
-  'Australia (Sydney)':'Australia/Sydney',
-  'UAE (Dubai)':'Asia/Dubai',
-  'Germany (Berlin)':'Europe/Berlin',
-  'Brazil (Sao Paulo)':'America/Sao_Paulo',
-  'Maldives':'Indian/Maldives'
-};
+// Complete IANA timezone list
+const timezones = Intl.supportedValuesOf('timeZone');
 
-for(let country in timezones){
+// Populate dropdown
+for(let tz of timezones){
   const option=document.createElement('option');
-  option.value=timezones[country];
-  option.textContent=country;
+  option.value=tz;
+  option.textContent=tz.replace('_',' ');
   countrySelect.appendChild(option);
 }
 
@@ -223,13 +212,11 @@ function drawHand(ctx,pos,length,width,color=getComputedStyle(document.body).get
   ctx.rotate(-pos);
 }
 
-// Country dropdown change
 countrySelect.addEventListener('change', async e=>{
   selectedZone=e.target.value;
   await syncTime();
 });
 
-// Dark/light toggle
 themeToggle.addEventListener('click',()=>{
   if(document.body.getAttribute('data-theme')==='dark'){
     document.body.removeAttribute('data-theme');
@@ -240,20 +227,20 @@ themeToggle.addEventListener('click',()=>{
   }
 });
 
-// Search button functionality
+// Search by city/country
 searchBtn.addEventListener('click', async ()=>{
   const query=searchInput.value.toLowerCase().trim();
-  const matches=Object.entries(timezones).filter(([name, tz])=>name.toLowerCase().includes(query));
-  if(matches.length>0){
-    selectedZone=matches[0][1];
+  const match=timezones.find(tz=>tz.toLowerCase().includes(query));
+  if(match){
+    selectedZone=match;
     countrySelect.value=selectedZone;
     await syncTime();
-  } else {
-    alert('No matching timezone found!');
+  }else{
+    alert('Timezone not found');
   }
 });
 
-// Auto select local timezone
+// Auto local timezone
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(()=>{
     try{
